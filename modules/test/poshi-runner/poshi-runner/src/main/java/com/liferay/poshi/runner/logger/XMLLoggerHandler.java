@@ -75,16 +75,13 @@ public final class XMLLoggerHandler {
 			String className =
 				PoshiRunnerGetterUtil.getClassNameFromClassCommandName(
 					classCommandName);
-			String namespace =
-				PoshiRunnerGetterUtil.getNamespaceFromClassCommandName(
-					classCommandName);
 
 			Element setUpElement = PoshiRunnerContext.getTestCaseCommandElement(
-				className + "#set-up", namespace);
+				className + "#set-up");
 
 			if (setUpElement != null) {
 				PoshiRunnerStackTraceUtil.startStackTrace(
-					namespace + "." + className + "#set-up", "test-case");
+					className + "#set-up", "test-case");
 
 				childContainerLoggerElement.addChildLoggerElement(
 					_getLoggerElementFromElement(setUpElement));
@@ -95,24 +92,20 @@ public final class XMLLoggerHandler {
 			PoshiRunnerStackTraceUtil.startStackTrace(
 				classCommandName, "test-case");
 
-			String simpleClassCommandName =
-				PoshiRunnerGetterUtil.getSimpleClassCommandName(
-					classCommandName);
-
 			childContainerLoggerElement.addChildLoggerElement(
 				_getLoggerElementFromElement(
 					PoshiRunnerContext.getTestCaseCommandElement(
-						simpleClassCommandName, namespace)));
+						classCommandName)));
 
 			PoshiRunnerStackTraceUtil.emptyStackTrace();
 
 			Element tearDownElement =
 				PoshiRunnerContext.getTestCaseCommandElement(
-					className + "#tear-down", namespace);
+					className + "#tear-down");
 
 			if (tearDownElement != null) {
 				PoshiRunnerStackTraceUtil.startStackTrace(
-					namespace + "." + className + "#tear-down", "test-case");
+					className + "#tear-down", "test-case");
 
 				childContainerLoggerElement.addChildLoggerElement(
 					_getLoggerElementFromElement(tearDownElement));
@@ -694,19 +687,22 @@ public final class XMLLoggerHandler {
 			String classCommandName)
 		throws Exception {
 
-		Element commandElement = PoshiRunnerContext.getTestCaseCommandElement(
-			classCommandName,
-			PoshiRunnerGetterUtil.getNamespaceFromClassCommandName(
-				classCommandName));
-
 		String className =
 			PoshiRunnerGetterUtil.getClassNameFromClassCommandName(
 				classCommandName);
 
+		if (className.equals("super")) {
+			className = PoshiRunnerGetterUtil.getExtendedTestCaseName();
+
+			classCommandName = classCommandName.replaceFirst(
+				"super", className);
+		}
+
+		Element commandElement = PoshiRunnerContext.getTestCaseCommandElement(
+			classCommandName);
+
 		Element rootElement = PoshiRunnerContext.getTestCaseRootElement(
-			className,
-			PoshiRunnerGetterUtil.getNamespaceFromClassCommandName(
-				classCommandName));
+			className);
 
 		return _getChildContainerLoggerElement(commandElement, rootElement);
 	}

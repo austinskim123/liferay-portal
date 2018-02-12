@@ -48,7 +48,7 @@ public class ExternalMethod {
 				System.out.println(sb.toString());
 
 				try {
-					returnObject = method.invoke(object, parameters);
+					returnObject = method.invoke(object, (Object[])parameters);
 				}
 				catch (Exception e2) {
 					throwable = e2.getCause();

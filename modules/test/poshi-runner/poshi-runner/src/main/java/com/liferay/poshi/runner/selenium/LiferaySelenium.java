@@ -31,7 +31,7 @@ public interface LiferaySelenium {
 	public void assertAlertNotPresent() throws Exception;
 
 	public void assertAttributeValue(
-			String attribute, String locator, String pattern)
+			String locator, String attribute, String expectedValue)
 		throws Exception;
 
 	public void assertChecked(String pattern) throws Exception;
@@ -114,9 +114,6 @@ public interface LiferaySelenium {
 		throws Exception;
 
 	public void assertText(String locator, String pattern) throws Exception;
-
-	public void assertTextCaseInsensitive(String locator, String pattern)
-		throws Exception;
 
 	public void assertTextNotPresent(String pattern) throws Exception;
 
@@ -258,9 +255,6 @@ public interface LiferaySelenium {
 	public boolean isTestName(String testName);
 
 	public boolean isText(String locator, String value) throws Exception;
-
-	public boolean isTextCaseInsensitive(String locator, String value)
-		throws Exception;
 
 	public boolean isTextNotPresent(String pattern);
 
@@ -465,9 +459,6 @@ public interface LiferaySelenium {
 		throws Exception;
 
 	public void waitForText(String locator, String value) throws Exception;
-
-	public void waitForTextCaseInsensitive(String locator, String pattern)
-		throws Exception;
 
 	public void waitForTextNotPresent(String value) throws Exception;
 

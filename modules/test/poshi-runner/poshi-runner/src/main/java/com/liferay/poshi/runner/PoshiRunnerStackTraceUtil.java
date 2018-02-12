@@ -38,7 +38,7 @@ public final class PoshiRunnerStackTraceUtil {
 
 	public static String getCurrentNamespace() {
 		if (_filePaths.isEmpty()) {
-			return PoshiRunnerContext.getNamespace(null);
+			return PoshiRunnerContext.getDefaultNamespace();
 		}
 
 		String filePath = getCurrentFilePath();

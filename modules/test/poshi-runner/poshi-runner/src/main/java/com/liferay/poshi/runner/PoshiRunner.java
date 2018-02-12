@@ -65,29 +65,20 @@ public class PoshiRunner {
 		for (String testName : testNames) {
 			PoshiRunnerValidation.validate(testName);
 
-			String namespace =
-				PoshiRunnerGetterUtil.getNamespaceFromClassCommandName(
-					testName);
-
 			if (testName.contains("#")) {
-				String simpleClassCommandName =
-					PoshiRunnerGetterUtil.getSimpleClassCommandName(testName);
-
-				classCommandNames.add(namespace + "." + simpleClassCommandName);
+				classCommandNames.add(testName);
 			}
 			else {
-				String className =
-					PoshiRunnerGetterUtil.getClassNameFromClassCommandName(
-						testName);
+				String className = testName;
 
 				Element rootElement = PoshiRunnerContext.getTestCaseRootElement(
-					className, namespace);
+					className);
 
 				List<Element> commandElements = rootElement.elements("command");
 
 				for (Element commandElement : commandElements) {
 					classCommandNames.add(
-						namespace + "." + className + "#" +
+						className + "#" +
 							commandElement.attributeValue("name"));
 				}
 			}
@@ -99,9 +90,8 @@ public class PoshiRunner {
 	public PoshiRunner(String classCommandName) throws Exception {
 		_testClassCommandName = classCommandName;
 
-		_testClassName =
-			PoshiRunnerGetterUtil.getNamespaceClassNameFromClassCommandName(
-				_testClassCommandName);
+		_testClassName = PoshiRunnerGetterUtil.getClassNameFromClassCommandName(
+			_testClassCommandName);
 	}
 
 	@Before
@@ -206,15 +196,8 @@ public class PoshiRunner {
 	private void _runClassCommandName(String classCommandName)
 		throws Exception {
 
-		String className =
-			PoshiRunnerGetterUtil.getClassNameFromClassCommandName(
-				classCommandName);
-		String namespace =
-			PoshiRunnerGetterUtil.getNamespaceFromClassCommandName(
-				classCommandName);
-
 		Element rootElement = PoshiRunnerContext.getTestCaseRootElement(
-			className, namespace);
+			_testClassName);
 
 		List<Element> varElements = rootElement.elements("var");
 
@@ -224,11 +207,8 @@ public class PoshiRunner {
 
 		PoshiRunnerVariablesUtil.pushCommandMap(true);
 
-		String simpleClassCommandName =
-			PoshiRunnerGetterUtil.getSimpleClassCommandName(classCommandName);
-
 		Element commandElement = PoshiRunnerContext.getTestCaseCommandElement(
-			simpleClassCommandName, namespace);
+			classCommandName);
 
 		if (commandElement != null) {
 			PoshiRunnerStackTraceUtil.startStackTrace(
